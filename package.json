@@ -1,27 +1,31 @@
 {
-  "name": "npm-base",
+  "name": "@waiting/log",
   "author": "waiting",
   "version": "0.0.1",
-  "description": "npm boilerplate",
+  "description": "Lightweight logging for browser",
   "keywords": [
+    "log",
+    "logger",
+    "logging",
+    "browser",
     "typescript"
   ],
   "engines": {
     "node": ">=8.10.0"
   },
   "bin": {},
-  "browser": "",
-  "es2015": "./dist/index.esm.js",
+  "browser": "./dist/log.esm.js",
+  "es2015": "./dist/log.esm.js",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bugs": {
-    "url": "https://github.com/waitingsong/npm-base/issues"
+    "url": "https://github.com/waitingsong/log/issues"
   },
-  "homepage": "https://github.com/waitingsong/npm-base#readme",
+  "homepage": "https://github.com/waitingsong/log#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waitingsong/npm-base.git"
+    "url": "git+https://github.com/waitingsong/log.git"
   },
   "license": "MIT",
   "nyc": {
