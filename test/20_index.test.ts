@@ -3,25 +3,9 @@
 import * as assert from 'power-assert'
 
 import {
-  getAvailableLogLevel, getConfig, setConfig, Config, LogLevel, LogLevelType,
+  getAvailableLogLevel, getConfig, setConfig, Config,
 } from '../src/index'
 import { defaultConfig } from '../src/lib/config'
-import {
-  isLocalStorageKey,
-  isLogLevelToPrune,
-  isSuppressLogLevel,
-  isTimeToPrune,
-  setMaxMsgLength,
-  setPersist,
-  setPersistTTL,
-  setRunLevel,
-  setStoragePrefix,
-  validateLogLevel,
-  validateMaxMsgLength,
-  validatePersist,
-  validatePersistTTL,
-  validateStoragePrefix,
-} from '../src/lib/util'
 import { basename } from '../src/shared/index'
 
 
