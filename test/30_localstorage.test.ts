@@ -19,15 +19,19 @@ const filename = basename(__filename)
 const tmpDir = join(tmpdir(), 'log-test-tmp')
 const logLevelArr = mylog.getAvailableLogLevel()
 
-// @ts-ignore
-global.localStorage = new LocalStorage(tmpDir)
-
 describe(filename, () => {
   const message = 'logmsg^a"b\'c<d>e&f'
 
-  // after(() => {
-  //   rimraf(tmpDir)
-  // })
+  before(() => {
+    // @ts-ignore
+    global.localStorage = new LocalStorage(tmpDir)
+  })
+
+  after(() => {
+    rimraf(tmpDir)
+    // @ts-ignore
+    delete process.localStorage
+  })
 
   describe('Should localSave() works', () => {
     it('with valid params', () => {

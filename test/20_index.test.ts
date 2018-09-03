@@ -9,17 +9,29 @@ import {
   getAvailableLogLevel, getConfig, log, setConfig, Config,
 } from '../src/index'
 import { defaultConfig } from '../src/lib/config'
-import { basename } from '../src/shared/index'
+import { basename, join, rimraf, tmpdir } from '../src/shared/index'
 
 
 const filename = basename(__filename)
+const tmpDir = join(tmpdir(), 'log-test-tmp')
 const logLevelArr = getAvailableLogLevel()
 const oriConfig = { ...defaultConfig }
+
 
 describe(filename, () => {
   const config: Partial<Config> = { }
 
-  after(() => setConfig(oriConfig))
+  before(() => {
+    // @ts-ignore
+    global.localStorage = new LocalStorage(tmpDir)
+  })
+
+  after(() => {
+    setConfig(oriConfig)
+    rimraf(tmpDir)
+    // @ts-ignore
+    delete process.localStorage
+  })
 
   describe('Should setConfig() works', () => {
     it('with maxMsgLength', () => {
