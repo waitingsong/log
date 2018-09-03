@@ -6,7 +6,7 @@ import { empty, of } from 'rxjs'
 import { catchError, delay, tap } from 'rxjs/operators'
 
 import {
-  getAvailableLogLevel, getConfig, log, setConfig, Config,
+  getAvailableLogLevel, getConfig, log, setConfig, setRunLevel, trace, Config,
 } from '../src/index'
 import { defaultConfig } from '../src/lib/config'
 import { basename, join, rimraf, tmpdir } from '../src/shared/index'
@@ -129,6 +129,69 @@ describe(filename, () => {
         .pipe(
           tap(() => {
             log(obj)
+          }),
+          delay(100),
+          tap(() => {
+            const key = localStorage.key(0)
+            const value = key && localStorage.getItem(key)
+            const data = value && JSON.parse(value)
+            assert.deepStrictEqual(data, obj, `Should get ${obj} bug got ${data}`)
+            resolve()
+          }),
+          catchError(err => {
+            assert(false, err)
+            resolve()
+            return empty()
+          }),
+        )
+        .subscribe()
+    })
+  })
+
+
+  describe('Should trace() works', () => {
+    beforeEach(() => localStorage.clear())
+    after(() => {
+      localStorage.clear()
+      setRunLevel('error')
+    })
+
+    it('with message', resolve => {
+      const msg = 'foo' + Math.random()
+      setRunLevel('trace')
+
+      of(1)
+        .pipe(
+          tap(() => {
+            trace(msg)
+          }),
+          delay(100),
+          tap(() => {
+            const key = localStorage.key(0)
+            const value = key && localStorage.getItem(key)
+            const data = value && JSON.parse(value)
+            assert(data === msg, `Should get ${msg} bug got ${data}`)
+            resolve()
+          }),
+          catchError(err => {
+            assert(false, err)
+            resolve()
+            return empty()
+          }),
+        )
+        .subscribe()
+    })
+
+    it('with object', resolve => {
+      const obj = {
+        foo: 'foo' + Math.random(),
+      }
+      setRunLevel('trace')
+
+      of(1)
+        .pipe(
+          tap(() => {
+            trace(obj)
           }),
           delay(100),
           tap(() => {
