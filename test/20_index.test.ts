@@ -1,9 +1,12 @@
 /// <reference types="mocha" />
 
+import { LocalStorage } from 'node-localstorage'
 import * as assert from 'power-assert'
+import { empty, of } from 'rxjs'
+import { catchError, delay, tap } from 'rxjs/operators'
 
 import {
-  getAvailableLogLevel, getConfig, setConfig, Config,
+  getAvailableLogLevel, getConfig, log, setConfig, Config,
 } from '../src/index'
 import { defaultConfig } from '../src/lib/config'
 import { basename } from '../src/shared/index'
@@ -72,6 +75,64 @@ describe(filename, () => {
         const ret = getConfig()
         assert.deepStrictEqual(ret, oriConfig)
       })
+    })
+  })
+
+
+  describe('Should log() works', () => {
+    beforeEach(() => localStorage.clear())
+    after(() => localStorage.clear())
+
+    it('with message', resolve => {
+      const msg = 'foo' + Math.random()
+
+      of(1)
+        .pipe(
+          tap(() => {
+            log(msg)
+          }),
+          delay(100),
+          tap(() => {
+            const key = localStorage.key(0)
+            const value = key && localStorage.getItem(key)
+            const data = value && JSON.parse(value)
+            assert(data === msg, `Should get ${msg} bug got ${data}`)
+            resolve()
+          }),
+          catchError(err => {
+            assert(false, err)
+            resolve()
+            return empty()
+          }),
+        )
+        .subscribe()
+    })
+
+    it('with object', resolve => {
+      const obj = {
+        foo: 'foo' + Math.random(),
+      }
+
+      of(1)
+        .pipe(
+          tap(() => {
+            log(obj)
+          }),
+          delay(100),
+          tap(() => {
+            const key = localStorage.key(0)
+            const value = key && localStorage.getItem(key)
+            const data = value && JSON.parse(value)
+            assert.deepStrictEqual(data, obj, `Should get ${obj} bug got ${data}`)
+            resolve()
+          }),
+          catchError(err => {
+            assert(false, err)
+            resolve()
+            return empty()
+          }),
+        )
+        .subscribe()
     })
   })
 
