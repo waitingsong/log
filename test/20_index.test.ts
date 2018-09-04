@@ -28,7 +28,7 @@ describe(filename, () => {
 
   after(() => {
     setConfig(oriConfig)
-    rimraf(tmpDir)
+    localStorage.clear()
     // @ts-ignore
     delete process.localStorage
   })

@@ -28,7 +28,7 @@ describe(filename, () => {
   })
 
   after(() => {
-    rimraf(tmpDir)
+    localStorage.clear()
     // @ts-ignore
     delete process.localStorage
   })
