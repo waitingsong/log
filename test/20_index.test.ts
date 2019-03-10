@@ -1,5 +1,6 @@
 /// <reference types="mocha" />
 
+import { basename, join, rimraf, tmpdir } from '@waiting/shared-core'
 import { LocalStorage } from 'node-localstorage'
 import * as assert from 'power-assert'
 import { empty, of } from 'rxjs'
@@ -9,7 +10,6 @@ import {
   getAvailableLogLevel, getConfig, log, setConfig, setRunLevel, trace, Config,
 } from '../src/index'
 import { defaultConfig } from '../src/lib/config'
-import { basename, join, rimraf, tmpdir } from '../src/shared/index'
 
 
 const filename = basename(__filename)

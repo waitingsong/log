@@ -1,18 +1,15 @@
 /// <reference types="mocha" />
 
+import { basename, join, rimraf, tmpdir } from '@waiting/shared-core'
 import { LocalStorage } from 'node-localstorage'
 import * as assert from 'power-assert'
 import { of } from 'rxjs'
 import { delay, tap } from 'rxjs/operators'
 
-// import {
-//   getAvailableLogLevel, getConfig, LogLevel, LogLevelType,
-// } from '../src/index'
 import * as mylog from '../src/index'
 import { defaultConfig } from '../src/lib/config'
 import { localSave, pruneLogs } from '../src/lib/localstorage'
 import { setRunLevel } from '../src/lib/util'
-import { basename, join, rimraf, tmpdir } from '../src/shared/index'
 
 
 const filename = basename(__filename)

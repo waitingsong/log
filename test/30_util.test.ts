@@ -1,5 +1,6 @@
 /// <reference types="mocha" />
 
+import { basename } from '@waiting/shared-core'
 import * as assert from 'power-assert'
 
 import {
@@ -21,7 +22,6 @@ import {
   validatePersistTTL,
   validateStoragePrefix,
 } from '../src/lib/util'
-import { basename } from '../src/shared/index'
 
 
 const filename = basename(__filename)
