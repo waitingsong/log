@@ -36,7 +36,12 @@ function save(key: string, data: any, maxLen: Config['maxMsgLength']): void {
   const content = JSON.stringify(cont)
   /* istanbul ignore else */
   if (typeof localStorage === 'object') {
-    localStorage.setItem(encodeURIComponent(key), content)
+    try {
+      localStorage.setItem(encodeURIComponent(key), content)
+    }
+    catch (ex) {
+      console.error(ex)
+    }
   }
 }
 
